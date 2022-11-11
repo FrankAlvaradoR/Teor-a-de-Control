@@ -1,0 +1,92 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyO/VbfhkiTMdPZZX8PQ+CgF",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/FrankAlvaradoR/Teor-a-de-Control/blob/main/Practica%207%20_%20Modelados%20de%20sistemas%20f%C3%ADsicos\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install control"
+      ],
+      "metadata": {
+        "id": "hP7-cTLtjwa9"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import control as co\n",
+        "import numpy as np\n",
+        "import sympy as sp\n",
+        "import matplotlib.pyplot as plt\n",
+        "import time"
+      ],
+      "metadata": {
+        "id": "8qjvO6pOjzhV"
+      },
+      "execution_count": 16,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "RHw-at17jt0_"
+      },
+      "outputs": [],
+      "source": [
+        "t = np.linspace(0,1,10000)      #vector de tiempo\n",
+        "\n",
+        "\n",
+        "#Función de transferencia\n",
+        "G6 = co.tf([628.3],[1,628.3])\n",
+        "print(G6)\n",
+        "\n",
+        "#Frecuencia de la señal de entrada \n",
+        "def graficar_resultado(i,G6,t):\n",
+        "  plt.figure(figsize=(16,8))      #tamaño de la figura\n",
+        "  F=i \n",
+        "  x=np.sin(2*np.pi*F*t) #señal de entrada\n",
+        "  plt.plot(t,x,label='señal de entrada')\n",
+        "  #Calcula la respuesta de G6 cuando la entrada es un pulso cuadrado\n",
+        "  _,y, = co.forced_response(G6, t, x)\n",
+        "\n",
+        "  plt.plot(t,y, label='Salida de G6')\n",
+        "  plt.xlabel('tiempo en seg')\n",
+        "  plt.ylabel('amplitud')\n",
+        "  plt.title('Señal senoidal de entrada de :' + str(i) + ' Hz')\n",
+        "  plt.legend()\n",
+        "  plt.grid()\n",
+        "\n",
+        "\n",
+        "for i in np.arange(0,500,10):\n",
+        "  graficar_resultado(i,G6,t)\n"
+      ]
+    }
+  ]
+}
